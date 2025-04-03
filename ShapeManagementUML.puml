@@ -1,0 +1,127 @@
+@startuml Shape Management System
+
+' Style settings
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam classFontSize 16
+skinparam classBackgroundColor #E3F2FD
+skinparam classBorderColor #1565C0
+skinparam arrowColor #1565C0
+skinparam packageBackgroundColor #E8F5E9
+skinparam packageBorderColor #2E7D32
+
+package "Shape Management System" {
+  ' Abstract base class
+  abstract class Shape {
+    # Coordinates coordinates
+    + Shape(float, float)
+    + virtual void display() const
+    + virtual float area() const = 0
+    + virtual float perimeter() const = 0
+    + void translate(float, float)
+    + virtual void scale(float) = 0
+    + Coordinates getCoordinates() const
+    + bool operator==(const Shape&) const
+  }
+  
+  ' Coordinates class
+  class Coordinates {
+    - float x
+    - float y
+    + Coordinates(float, float)
+    + float getX() const
+    + float getY() const
+    + void setX(float)
+    + void setY(float)
+    + bool operator==(const Coordinates&) const
+  }
+  
+  ' Derived shape classes
+  class Point {
+    + Point(float, float)
+    + void display() const
+    + float area() const
+    + float perimeter() const
+    + void scale(float)
+  }
+  
+  class Line {
+    - float length
+    + Line(float, float, float)
+    + void display() const
+    + float area() const
+    + float perimeter() const
+    + void scale(float)
+    + float getLength() const
+  }
+  
+  class Circle {
+    - float radius
+    + Circle(float, float, float)
+    + void display() const
+    + float area() const
+    + float perimeter() const
+    + void scale(float)
+    + float getRadius() const
+  }
+  
+  class Rectangle {
+    # float width
+    # float height
+    + Rectangle(float, float, float, float)
+    + void display() const
+    + float area() const
+    + float perimeter() const
+    + void scale(float)
+    + float getWidth() const
+    + float getHeight() const
+  }
+  
+  class Square {
+    + Square(float, float, float)
+    + void display() const
+    + void scale(float)
+    + float getSide() const
+  }
+  
+  class Triangle {
+    - float sideA
+    - float sideB
+    - float sideC
+    - bool isValidTriangle()
+    + Triangle(float, float, float, float, float)
+    + void display() const
+    + float area() const
+    + float perimeter() const
+    + void scale(float)
+    + float getSideA() const
+    + float getSideB() const
+    + float getSideC() const
+  }
+  
+  ' Shape management class
+  class ShapeList {
+    - vector<Shape*> shapes
+    + ShapeList()
+    + ~ShapeList()
+    + bool addShape(Shape*)
+    + bool removeShape(int)
+    + void displayAll() const
+    + int size() const
+    + void translateShapes(float, float)
+    + void scaleShapes(float)
+    + Shape* getShape(int) const
+  }
+  
+  ' Relationships
+  Shape *-- Coordinates : contains >
+  Shape <|-- Point : extends
+  Shape <|-- Line : extends
+  Shape <|-- Circle : extends
+  Shape <|-- Rectangle : extends
+  Shape <|-- Triangle : extends
+  Rectangle <|-- Square : extends
+  ShapeList o-- "0..*" Shape : manages >
+}
+
+@enduml 
