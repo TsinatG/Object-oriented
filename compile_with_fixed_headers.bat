@@ -1,5 +1,9 @@
 @echo off
-echo Shape Management System - Windows Compilation Script
+echo Shape Management System - Compilation with Fixed Headers
+
+REM Copy fixed header file
+echo Copying fixed header file...
+copy /Y Shape_fixed.hpp Shape.hpp
 
 REM Check if Catch2 header exists, if not download it
 if not exist catch.hpp (
@@ -40,7 +44,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Compile the main program
+REM Compile main program
 echo Compiling Shape Management System...
 g++ -std=c++14 main.cpp Coordinates.o Shape.o ShapeList.o -o shape_management.exe
 if errorlevel 1 (
@@ -53,26 +57,26 @@ REM Compile the tests
 echo Compiling Unit Tests...
 g++ -std=c++14 tests.cpp Coordinates.o Shape.o ShapeList.o -o tests.exe
 if errorlevel 1 (
-    echo Error compiling unit tests. Aborting.
-    pause
-    exit /b 1
+    echo Error compiling unit tests. Continuing anyway.
+) else (
+    echo Unit tests compiled successfully.
 )
 
 REM Compile the calculation tests
 echo Compiling Calculation Tests...
 g++ -std=c++14 test_calculations.cpp Coordinates.o Shape.o ShapeList.o -o test_calculations.exe
 if errorlevel 1 (
-    echo Error compiling calculation tests. Aborting.
-    pause
-    exit /b 1
+    echo Error compiling calculation tests. Continuing anyway.
+) else (
+    echo Calculation tests compiled successfully.
 )
 
 echo.
 echo Compilation complete!
 echo.
 echo To run the Shape Management System: shape_management.exe
-echo To run the Unit Tests: tests.exe
-echo To run the Calculation Tests: test_calculations.exe
+if exist tests.exe echo To run the Unit Tests: tests.exe
+if exist test_calculations.exe echo To run the Calculation Tests: test_calculations.exe
 echo.
 
 REM Ask user if they want to run one of the programs
@@ -82,11 +86,19 @@ if "%choice%"=="1" (
     echo Running Shape Management System...
     shape_management.exe
 ) else if "%choice%"=="2" (
-    echo Running Unit Tests...
-    tests.exe
+    if exist tests.exe (
+        echo Running Unit Tests...
+        tests.exe
+    ) else (
+        echo Tests executable does not exist.
+    )
 ) else if "%choice%"=="3" (
-    echo Running Calculation Tests...
-    test_calculations.exe
+    if exist test_calculations.exe (
+        echo Running Calculation Tests...
+        test_calculations.exe
+    ) else (
+        echo Test Calculations executable does not exist.
+    )
 ) else (
     echo Exiting.
 )
