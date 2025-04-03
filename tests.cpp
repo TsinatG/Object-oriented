@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"  // You'll need to download the Catch2 header
+#include "Coordinates.hpp"
 #include "Shape.hpp"
 #include "ShapeList.hpp"
 #include <cmath>

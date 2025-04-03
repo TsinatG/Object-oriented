@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+#include "Coordinates.hpp"
 #include "Shape.hpp"
 #include "ShapeList.hpp"
 #include <cmath>
